@@ -1,37 +1,62 @@
 public class Radio {
 
+    private int stationCount;
     private int currentStation;
+
     private int currentVolume;
+
+    public Radio() {
+
+        this(10);
+    }
+
+    public Radio(int stationCount) {
+        if (stationCount <= 0) {
+            this.stationCount = 10;
+        } else {
+            this.stationCount = stationCount;
+        }
+        this.currentStation = 0;
+        this.currentVolume = 0;
+    }
 
     //работа со станциями
     public int getCurrentStation() {
         return currentStation;
     }
 
-    public void setCurrentStation(int newCurrentStation) {
-        if (newCurrentStation < 0) {
+    public int getMaxStation() {
+        return stationCount - 1;
+    }
+
+    public int getMinStation() {
+        return 0;
+    }
+
+    public void setCurrentStation(int station) {
+        if (station < getMinStation()) {
             return;
         }
-        if (newCurrentStation > 9) {
+        if (station > getMaxStation()) {
             return;
         }
-        currentStation = newCurrentStation;
+        this.currentStation = station;
 
     }
 
     public void next() {
-        if (currentStation == 9) {
-            currentStation = 0;
-        } else {
+        if (currentStation != getMaxStation()) {
             currentStation++;
+        } else {
+            currentStation = getMinStation();
         }
     }
 
     public void prev() {
-        if (currentStation == 0) {
-            currentStation = 9;
-        } else {
+        if (currentStation != getMinStation()) {
             currentStation--;
+        } else {
+            currentStation = getMaxStation();
         }
     }
 
@@ -41,21 +66,36 @@ public class Radio {
         return currentVolume;
     }
 
-    public void setCurrentVolume(int newCurrentVolume) {
-        currentVolume = newCurrentVolume;
+    public int getMaxVolume() {
+        return 100;
+    }
+
+    public int getMinVolume() {
+        return 0;
+    }
+
+    public void setCurrentVolume(int volume) {
+        if (volume < getMinVolume()) {
+            return;
+        }
+        if (volume > getMaxVolume()) {
+            return;
+        }
+        this.currentVolume = volume;
     }
 
     public void louder() {
-        if (currentVolume < 100) {
+        if (currentVolume < getMaxVolume()) {
             currentVolume++;
         }
     }
 
     public void quieter() {
-        if (currentVolume > 0) {
+        if (currentVolume > getMinVolume()) {
             currentVolume--;
         }
     }
 }
+
 
 
